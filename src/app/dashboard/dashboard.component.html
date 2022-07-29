@@ -1,0 +1,15 @@
+<nav class="navbar navbar-dark bg-dark">
+  Marvel Heroes
+</nav>
+<button type="button" class="btn btn-info btn-lg" (click)="openModalCreateCharacter()">click to open</button>
+
+<app-table-characters #tableCharacters [characters]="characters" (displayEvent)="onGetDisplayModal($event)"
+  (charactersEvent)="onGetCharacters($event)" (characterEvent)="onGetCharacterToEdit($event)"></app-table-characters>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+  <div class="modal-dialog" role="document">
+    <app-form-character #formCharacter [display]="display" [character]="character" [characters]="characters"
+      [operationCrud]="operationCrud" (charactersEvent)="onGetCharacters($event)"
+      (displayEvent)="onGetDisplayModal($event)"></app-form-character>
+  </div>
+</div>

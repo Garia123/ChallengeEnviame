@@ -1,0 +1,47 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">New Character</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <form [formGroup]="registerForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" formControlName="name" id="name" class="form-control" placeholder="Name" required
+                [(ngModel)]="character.name"
+                [ngClass]="{ 'is-invalid': f.name.touched && f.name.errors, 'is-valid': f.name.valid }">
+              <div *ngIf="f.name.touched && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required!</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <textarea type="text" formControlName="description" id="description" class="form-control"
+                placeholder="Description" required [(ngModel)]="character.description"
+                [ngClass]="{ 'is-invalid': f.description.touched && f.description.errors, 'is-valid': f.description.valid }">
+              </textarea>
+              <div *ngIf="f.description.touched && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors.required">Description is required!</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <input #Image type="file" (change)="handleFileInput($event.target.files)" />
+            <img width="100%" *ngIf="imageUrl" [src]="imageUrl" class="image">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" *ngIf="operationCrud===operationCreate" [disabled]="registerForm.invalid"
+      class="btn btn-primary" (click)="addCharacter()"> Register </button>
+    <button type="submit" *ngIf="operationCrud===operationUpdate" [disabled]="registerForm.invalid"
+      class="btn btn-primary" (click)="editCharacter()"> Edit </button>
+    <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+  </div>
+</div>
