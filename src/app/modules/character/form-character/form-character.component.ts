@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Character } from 'src/app/models/character';
 import { Thumbnail } from 'src/app/models/thumbnail';
@@ -12,30 +12,25 @@ import { Subject, Subscription } from 'rxjs';
   templateUrl: './form-character.component.html',
   styleUrls: ['./form-character.component.css']
 })
-export class FormCharacterComponent implements OnInit, AfterContentChecked {
-  subscription: Subscription;
-  editMode = false;
-  editedItemIndex: number;
-  editedItem: Character;
-  fileToUpload: any;
-  indexCharacter = 0;
-  imageUrl: any;
-  imgRouteLocalPath = './../../../../assets/images/'
+export class FormCharacterComponent implements OnInit {
+  public subscription: Subscription;
+  public editMode = false;
+  public fileToUpload: any;
+  public indexCharacter = 0;
+  public imageUrl: any;
+  public imgRouteLocalPath = '../../../../assets/images/';
+  public characters: Array<Character> = new Array<Character>();
+  public character: Character = new Character();
   public thumbnail: Thumbnail = new Thumbnail();
+  public registerForm: FormGroup;
   @Input() operationCrud: string = '';
-  characters: Array<Character> = new Array<Character>();
-  character: Character = new Character();
   @Output() displayEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() charactersEvent: EventEmitter<Array<Character>> = new EventEmitter<Array<Character>>();
-  public registerForm: FormGroup;
+
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef, private characterService: CharacterService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.createRegisterForm();
-  }
-
-  ngAfterContentChecked() {
-    this.cdref.detectChanges();
   }
 
   createRegisterForm() {
@@ -62,10 +57,7 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
     newCharacter.name = value.name;
     newCharacter.description = value.description;
     newCharacter.modified = new Date();
-    newCharacter.thumbnail = this.character.thumbnail;
-    if (!this.isInvalidThumbnail) {
-      newCharacter.thumbnail = this.thumbnail;
-    }
+    newCharacter.thumbnail = this.thumbnail;
     if (!this.editMode) {
       this.characters.push(newCharacter);
       this.toastr.success('Success!', 'The add character correctly.');
@@ -75,12 +67,12 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
       this.editMode = false;
       this.toastr.success('Success!', 'The update character correctly.');
     }
-    this.registerForm.reset();
+    this.clearForm();
     this.charactersEvent.emit(this.characters);
   }
 
 
-  verifyAvailableToAddCharacter(characters: Array<Character>, name: string): void {
+  private verifyAvailableToAddCharacter(characters: Array<Character>, name: string): void {
     let characterObtained = characters.filter((c) => c.name === name);
     if (characterObtained.length == 0) {
       this.registrerCharacterSuccessfull();
@@ -100,11 +92,6 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
         this.toastr.error('Error!', 'An error occurred and the list of characters could not be obtained.');
       }
     );
-  }
-
-
-  private isInvalidThumbnail(): boolean {
-    return this.thumbnail.path === undefined || this.thumbnail.extension === undefined;
   }
 
   public editCharacter(): void {

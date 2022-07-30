@@ -12,18 +12,16 @@ import { FormCharacterComponent } from '../form-character/form-character.compone
 export class TableCharactersComponent implements OnInit {
   public display: string;
   characters: Array<Character> = new Array<Character>();
-  @Output() characterEvent: EventEmitter<Character> = new EventEmitter<Character>();
-  @Output() charactersEvent: EventEmitter<Array<Character>> = new EventEmitter<Array<Character>>();
   @ViewChild('formCharacter') formCharacter: FormCharacterComponent;
 
   constructor(private characterService: CharacterService, private toastr: ToastrService, private cdref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    //this.getCharacters();
+    this.getCharacters();
   }
 
   private getCharacters(): void {
-    this.characterService.getAll().subscribe(
+    this.characterService.getAllCharacters().subscribe(
       (response) => {
         this.characters = response.data.results as Character[];
         this.formCharacter.characters = this.characters;
@@ -34,18 +32,21 @@ export class TableCharactersComponent implements OnInit {
     );
   }
 
-  onGetCharacters(event){
-    this.characters = event;
+  public onGetCharacters(characters: Array<Character>): void {
+    this.characters = characters;
   }
 
-  onEditItem(index: number) {
+  public onEditItem(index: number): void {
+    this.formCharacter.imageUrl = this.characters[index].thumbnail.path + '.' + this.characters[index].thumbnail.extension;
     this.formCharacter.character = this.characters[index];
     this.formCharacter.indexCharacter = index;
     this.formCharacter.editMode = true;
+    this.formCharacter.thumbnail.path = this.characters[index].thumbnail.path;
+    this.formCharacter.thumbnail.extension = this.characters[index].thumbnail.extension;
     this.formCharacter.editCharacter();
   }
 
-  public searchCharacter(event) {
+  public searchCharacter(event): void {
     const value = event.target.value;
     this.characterService.getByName(value).subscribe(
       (response) => {
