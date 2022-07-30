@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Character } from '../models/character';
 import { FormCharacterComponent } from '../modules/character/form-character/form-character.component';
-import { TableCharactersComponent } from '../modules/character/table-characters/table-characters.component';
 import { operation_crud } from '../shared/constants';
 
 @Component({

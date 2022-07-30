@@ -5,6 +5,7 @@ import { FormCharacterComponent } from './form-character/form-character.componen
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [TableCharactersComponent, FormCharacterComponent],
@@ -14,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   exports: [TableCharactersComponent, FormCharacterComponent]
 })

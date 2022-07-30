@@ -2,6 +2,7 @@ import { AfterContentChecked, Component, EventEmitter, Input, OnInit, Output } f
 import { Character } from 'src/app/models/character';
 import { CharacterService } from 'src/app/services/character.service';
 import { operation_crud } from 'src/app/shared/constants';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-table-characters',
@@ -16,7 +17,7 @@ export class TableCharactersComponent implements OnInit {
   @Output() characterEvent: EventEmitter<Character> = new EventEmitter<Character>();
   @Output() charactersEvent: EventEmitter<Array<Character>> = new EventEmitter<Array<Character>>();
 
-  constructor(private characterService: CharacterService) {}
+  constructor(private characterService: CharacterService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getCharacters();
@@ -29,12 +30,10 @@ export class TableCharactersComponent implements OnInit {
         this.charactersEvent.emit(this.characters);
       },
       (error) => {
-
+        this.toastr.error('Error!', 'An error occurred and the list of characters could not be obtained.');
       }
     );
   }
-
-
 
   public searchCharacter(event) {
     const value = event.target.value;
@@ -43,7 +42,7 @@ export class TableCharactersComponent implements OnInit {
         this.characters = response.data.results;
       },
       (error) => {
-
+        this.toastr.error('Error!', 'An error occurred and the list of characters could not be obtained.');
       }
     );
   }

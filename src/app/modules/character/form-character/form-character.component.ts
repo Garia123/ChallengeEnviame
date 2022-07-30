@@ -5,6 +5,7 @@ import { Thumbnail } from 'src/app/models/thumbnail';
 import { operation_crud } from 'src/app/shared/constants';
 import { ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-character',
@@ -27,18 +28,19 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
   maxDate = new Date();
   public registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef, private characterService: CharacterService) { }
+  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef, private characterService: CharacterService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.createRegisterForm();
+
   }
 
   ngAfterContentChecked() {
     this.cdref.detectChanges();
-    if (this.operationCrud !== this.operationUpdate) {
+    /*if (this.operationCrud !== this.operationUpdate) {
       this.registerForm.reset();
       this.character = new Character();
-    }
+    }*/
   }
 
   createRegisterForm() {
@@ -51,26 +53,26 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
   get f() { return this.registerForm.controls; }
 
   public addCharacter(): void {
+    this.getCharacterByName(this.character.name);
   }
 
   private registrerCharacterSuccessfull(): void {
     this.character.modified = new Date();
     this.character.thumbnail = this.thumbnail;
     this.characters.push(this.character);
+    this.toastr.success('Success!', 'The add character correctly.');
     this.charactersEvent.emit(this.characters);
     this.registerForm.reset();
     this.onCloseHandled();
-  }
-
-  existsCharacter() {
-    this.getCharacterByName(this.character.name);
-
   }
 
   verifyAvailableToAddCharacter(characters: Array<Character>, name: string): void {
     let characterObtained = characters.filter((c) => c.name === name);
     if (characterObtained.length == 0) {
       this.registrerCharacterSuccessfull();
+    }
+    else {
+      this.toastr.error('Error!', 'The character already exists');
     }
   }
 
@@ -81,7 +83,7 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
         this.verifyAvailableToAddCharacter(characters, name);
       },
       (error) => {
-
+        this.toastr.error('Error!', 'An error occurred and the list of characters could not be obtained.');
       }
     );
   }
@@ -125,4 +127,5 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
     }
     reader.readAsDataURL(this.fileToUpload);
   }
+
 }

@@ -8,12 +8,14 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CharacterModule } from './modules/character/character.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UiModule } from './modules/ui/ui.module';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
+
   ],
   imports: [
     AppRoutingModule,
@@ -23,7 +25,8 @@ import { UiModule } from './modules/ui/ui.module';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    UiModule
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
