@@ -1,3 +1,5 @@
+<app-form-character #formCharacter (charactersEvent)="onGetCharacters($event)"></app-form-character>
+
 <div class="container">
   <div class="row">
     <div class="col-6">
@@ -22,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let character of characters">
+          <tr *ngFor="let character of characters; let i=index">
             <th scope="row">{{character.name}}</th>
             <td class="w-20">
               <img src="{{character.thumbnail.path +'.' +character.thumbnail.extension}}"
@@ -30,7 +32,8 @@
             </td>
             <td>{{character.description}}</td>
             <td>{{character.modified | date: 'dd/MM/yyyy'}}</td>
-            <td><button type="button" (click)="openModalUpdateCharacter(character)" class="btn btn-lg btn-primary rounded-circle"><i class="bi bi-pencil-square"></i>
+            <td><button type="button" (click)="onEditItem(i)"
+                class="btn btn-lg btn-primary rounded-circle"><i class="bi bi-pencil-square"></i>
               </button>
             </td>
           </tr>
