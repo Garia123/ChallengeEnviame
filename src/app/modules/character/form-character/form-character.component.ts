@@ -1,11 +1,11 @@
-import { AfterContentChecked, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Character } from 'src/app/models/character';
 import { Thumbnail } from 'src/app/models/thumbnail';
 import { ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-form-character',

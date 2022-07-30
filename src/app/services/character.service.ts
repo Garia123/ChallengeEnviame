@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -10,11 +11,11 @@ export class CharacterService {
   constructor(public http: HttpClient) {
   }
 
-  getByName(name) {
+  public getByName(name: string): Observable<any> {
     return this.http.get<any>(`${environment.url + 'characters?nameStartsWith=' + name + '&' + environment.apiKey}`);
   }
 
-  getAllCharacters() {
+  public getAllCharacters(): Observable<any> {
     return this.http.get<any>(`${environment.url + 'characters?' + environment.apiKey}`);
   }
 }

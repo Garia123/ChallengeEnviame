@@ -54,7 +54,7 @@ export class TableCharactersComponent implements OnInit {
         this.formCharacter.characters = this.characters;
       },
       (error) => {
-        this.toastr.error('Error!', 'An error occurred and the list of characters could not be obtained.');
+        this.getCharacters();
       }
     );
   }
