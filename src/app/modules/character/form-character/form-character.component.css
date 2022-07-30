@@ -1,3 +1,57 @@
 .form-group {
   margin-top: 5px;
 }
+
+.img-character {
+  width: 200px;
+  height: 160px;
+  border-color: rgb(137, 129, 129);
+  border-style: dashed;
+  border-width: 2px;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.buttons-form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  margin: 2px;
+}
+
+
+.file-select {
+  position: relative;
+  display: inline-block;
+}
+
+.file-select::before {
+  background-color: #5678EF;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  content: 'Seleccionar'; /* testo por defecto */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.file-select input[type="file"] {
+  opacity: 0;
+  width: 200px;
+  height: 40px;
+  display: inline-block;
+}
+
+#src-file1::before {
+  content: 'Seleccionar Archivo';
+}

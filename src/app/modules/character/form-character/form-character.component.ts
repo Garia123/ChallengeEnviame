@@ -2,7 +2,6 @@ import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit,
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Character } from 'src/app/models/character';
 import { Thumbnail } from 'src/app/models/thumbnail';
-import { operation_crud } from 'src/app/shared/constants';
 import { ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ToastrService } from 'ngx-toastr';
@@ -28,7 +27,6 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
   character: Character = new Character();
   @Output() displayEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() charactersEvent: EventEmitter<Array<Character>> = new EventEmitter<Array<Character>>();
-  maxDate = new Date();
   public registerForm: FormGroup;
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef, private characterService: CharacterService, private toastr: ToastrService) { }
 
@@ -50,10 +48,10 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
   get f() { return this.registerForm.controls; }
 
   public submit(): void {
-    if(this.editMode){
+    if (this.editMode) {
       this.registrerCharacterSuccessfull();
     }
-    else{
+    else {
       this.getCharacterByName(this.registerForm.value.name);
     }
   }
@@ -68,7 +66,7 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
     if (!this.isInvalidThumbnail) {
       newCharacter.thumbnail = this.thumbnail;
     }
-    if(!this.editMode){
+    if (!this.editMode) {
       this.characters.push(newCharacter);
       this.toastr.success('Success!', 'The add character correctly.');
     }
@@ -127,4 +125,8 @@ export class FormCharacterComponent implements OnInit, AfterContentChecked {
     reader.readAsDataURL(this.fileToUpload);
   }
 
+  public clearForm(): void {
+    this.registerForm.reset();
+    this.imageUrl = "";
+  }
 }

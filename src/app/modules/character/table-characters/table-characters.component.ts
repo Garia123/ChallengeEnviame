@@ -1,9 +1,7 @@
-import { AfterContentChecked, AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Character } from 'src/app/models/character';
 import { CharacterService } from 'src/app/services/character.service';
-import { operation_crud } from 'src/app/shared/constants';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
 import { FormCharacterComponent } from '../form-character/form-character.component';
 
 @Component({
@@ -21,7 +19,7 @@ export class TableCharactersComponent implements OnInit {
   constructor(private characterService: CharacterService, private toastr: ToastrService, private cdref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.getCharacters();
+    //this.getCharacters();
   }
 
   private getCharacters(): void {
